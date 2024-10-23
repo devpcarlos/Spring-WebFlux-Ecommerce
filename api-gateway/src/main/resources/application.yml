@@ -1,9 +1,16 @@
+
 server:
   port: 8080
 
 spring:
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
+      routes:
+        - id: product-service
+          uri: http://localhost:8081 # Dirección del servicio de productos
+          predicates:
+            - Path=/products/**
+        - id: order-service
+          uri: http://localhost:8082 # Dirección del servicio de órdenes
+          predicates:
+            - Path=/orders/**

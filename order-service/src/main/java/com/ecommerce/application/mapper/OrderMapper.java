@@ -7,10 +7,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderMapper {
     public OrderDTO toDTO(Order order) {
-        return new OrderDTO(order.getId(), order.getProductId(), order.getQuantity());
+        return OrderDTO.builder()
+                .productId(order.getProductId())
+                .quantity(order.getQuantity())
+                .build();
     }
 
     public Order toEntity(OrderDTO dto) {
-        return new Order(dto.getId(), dto.getProductId(), dto.getQuantity());
+        return Order.builder()
+                .productId(dto.getProductId())
+                .quantity(dto.getQuantity())
+                .build();
     }
 }

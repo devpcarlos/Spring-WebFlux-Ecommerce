@@ -6,9 +6,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "Order API", version = "1.0", description = "Documentación de la API de órdenes"))
-public class OrderMain {
+@OpenAPIDefinition(info = @Info(title = "Prodcut API", version = "1.0", description = "Documentación de la API de Productos"))
+public class ProductMain {
     public static void main(String[] args) {
-        SpringApplication.run(OrderMain.class, args);
+        SpringApplication.run(ProductMain.class, args);
     }
 }

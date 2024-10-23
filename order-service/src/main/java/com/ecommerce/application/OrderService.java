@@ -1,7 +1,10 @@
 package com.ecommerce.application;
 
+import com.ecommerce.application.dto.OrderDTO;
+import com.ecommerce.application.mapper.OrderMapper;
 import com.ecommerce.domain.model.Order;
 import com.ecommerce.domain.repository.OrderRepository;
+import com.ecommerce.infrastructure.exceptions.OrderNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -13,16 +16,19 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public Flux<Order> getAllOrders() {
-        return orderRepository.findAll();
+    @Autowired
+    private OrderMapper orderMapper;
+
+    public Flux<OrderDTO> getAllOrders() {
+        return orderRepository.findAll().map(orderMapper::toDTO);
     }
 
-    public Mono<Order> getOrderById(Long id) {
-        return orderRepository.findById(id);
+    public Mono<OrderDTO> getOrderById(Long id) {
+        return orderRepository.findById(id).map(orderMapper::toDTO).switchIfEmpty(Mono.error(new OrderNotFoundException(id)));
     }
 
-    public Mono<Order> createOrder(Order order) {
-        return orderRepository.save(order);
+    public Mono<OrderDTO> createOrder(OrderDTO orderDTO) {
+        return orderRepository.save(orderMapper.toEntity(orderDTO)).map(orderMapper::toDTO);
     }
 
     public Mono<Void> deleteOrder(Long id) {

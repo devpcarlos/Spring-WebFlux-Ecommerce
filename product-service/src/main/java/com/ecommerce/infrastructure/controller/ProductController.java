@@ -1,7 +1,8 @@
 package com.ecommerce.infrastructure.controller;
 
 import com.ecommerce.application.ProductService;
-import com.ecommerce.domain.model.Product;
+import com.ecommerce.application.dto.ProductDto;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -14,25 +15,26 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
-
+    @Operation(summary = "Obtener todos los productos", description = "Recupera una lista de todos los Productos")
     @GetMapping
-    public Flux<Product> getAllProducts() {
+    public Flux<ProductDto> getAllProducts() {
         return productService.getAllProducts();
     }
 
+    @Operation(summary = "Obtener un producto", description = "Recupera un producto por su id")
     @GetMapping("/{id}")
-    public Mono<Product> getProductById(@PathVariable Long id) {
+    public Mono<ProductDto> getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
     }
-
+    @Operation(
+            summary = "Crear una nuevo producto",
+            description = "Crea una nuevo producto con los detalles proporcionados")
     @PostMapping
-    public Mono<Product> createProduct(@RequestBody Product product) {
-        return productService.createProduct(product);
+    public Mono<ProductDto> createProduct(@RequestBody ProductDto productDto) {
+        return productService.createProduct(productDto);
     }
 
+    @Operation(summary = "Elimina un producto", description = "Elimina un producto por su id")
     @DeleteMapping("/{id}")
     public Mono<Void> deleteProduct(@PathVariable Long id) {
         return productService.deleteProduct(id);

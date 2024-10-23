@@ -1,32 +1,35 @@
 package com.ecommerce.application;
 
+import com.ecommerce.application.dto.ProductDto;
+import com.ecommerce.application.mapper.ProductMapper;
 import com.ecommerce.domain.model.Product;
 import com.ecommerce.domain.repository.ProductRepository;
+import com.ecommerce.infrastructure.exceptions.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-public class ProductService {
+public class ProductService implements ProductInterface {
 
     @Autowired
     private ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    @Autowired
+    private ProductMapper productMapper;
+
+    public Flux<ProductDto> getAllProducts() {
+        return productRepository.findAll().map(productMapper::toDto);
     }
 
-    public Flux<Product> getAllProducts() {
-        return productRepository.findAll();
+    public Mono<ProductDto> getProductById(Long id) {
+        return productRepository.findById(id).map(productMapper::toDto).switchIfEmpty(Mono.error(new ProductNotFoundException(id)));
     }
 
-    public Mono<Product> getProductById(Long id) {
-        return productRepository.findById(id);
-    }
-
-    public Mono<Product> createProduct(Product product) {
-        return productRepository.save(product);
+    public Mono<ProductDto> createProduct(ProductDto productDto) {
+        Product product=productMapper.toProduct(productDto);
+        return productRepository.save(product).map(productMapper::toDto);
     }
 
     public Mono<Void> deleteProduct(Long id) {

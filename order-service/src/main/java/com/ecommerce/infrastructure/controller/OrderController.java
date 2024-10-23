@@ -2,9 +2,8 @@ package com.ecommerce.infrastructure.controller;
 
 import com.ecommerce.application.OrderService;
 import com.ecommerce.application.dto.OrderDTO;
-import com.ecommerce.application.mapper.OrderMapper;
-import com.ecommerce.domain.model.Order;
-import com.ecommerce.infrastructure.exceptions.OrderNotFoundException;
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -17,26 +16,27 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @Autowired
-    private OrderMapper orderMapper;
-
+    @Operation(summary = "Obtener todas las órdenes", description = "Recupera una lista de todas las órdenes")
     @GetMapping
     public Flux<OrderDTO> getAllOrders() {
-        return orderService.getAllOrders().map(orderMapper::toDTO);
+        return orderService.getAllOrders();
     }
 
+    @Operation(summary = "Obtener una orden", description = "Recupera una orden por su id")
     @GetMapping("/{id}")
     public Mono<OrderDTO> getOrderById(@PathVariable Long id) {
-        return orderService.getOrderById(id).map(orderMapper::toDTO).switchIfEmpty(Mono.error(new OrderNotFoundException(id)));
+        return orderService.getOrderById(id);
     }
 
+    @Operation(
+            summary = "Crear una nueva orden",
+            description = "Crea una nueva orden con los detalles proporcionados")
     @PostMapping
-    public Mono<OrderDTO> createOrder(@RequestBody OrderDTO orderDto) {
-        Order order = orderMapper.toEntity(orderDto);
-        return orderService.createOrder(order).map(orderMapper::toDTO);
-
+    public Mono<OrderDTO> createOrder(@Valid @RequestBody OrderDTO orderDto) {
+        return orderService.createOrder(orderDto);
     }
 
+    @Operation(summary = "Elimina una orden", description = "Elimina una orden por su id")
     @DeleteMapping("/{id}")
     public Mono<Void> deleteOrder(@PathVariable Long id) {
         return orderService.deleteOrder(id);

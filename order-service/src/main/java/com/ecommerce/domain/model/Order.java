@@ -8,6 +8,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 @Table("orders")
 public class Order {
     @Id
