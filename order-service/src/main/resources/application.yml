@@ -1,0 +1,13 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/orderdb
+    username: postgres
+    password: Post*124*
+  flyway:
+      url: jdbc:postgresql://localhost:5432/orderdb
+      user: postgres
+      password: Post*124*
+
+
+server:
+  port: 8082

@@ -1,0 +1,12 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/productdb
+    username: postgres
+    password: Post*124*
+  flyway:
+    url: jdbc:postgresql://localhost:5432/productdb
+    user: postgres
+    password: Post*124*
+
+server:
+  port: 8081

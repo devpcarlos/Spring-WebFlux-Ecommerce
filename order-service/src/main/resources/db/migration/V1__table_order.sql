@@ -1,0 +1,5 @@
+CREATE TABLE orders (
+ id SERIAL PRIMARY KEY NOT NULL,
+ product_id BIGINT NOT NULL,
+ quantity INTEGER NOT NULL
+);
