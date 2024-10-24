@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  order-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_R2DBC_URL=r2dbc:postgresql://db:5432/orderdb
+      - SPRING_R2DBC_USERNAME=postgres
+      - SPRING_R2DBC_PASSWORD=Post*124*
+      - SPRING_FLYWAY_URL=jdbc:postgresql://db:5432/orderdb
+      - SPRING_FLYWAY_USER=postgres
+      - SPRING_FLYWAY_PASSWORD=Post*124*
+    depends_on:
+      - db
+
+  db:
+    image: postgres:12
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Post*124*
+      POSTGRES_DB: orderdb
+    ports:
+      - "5432:5432"
