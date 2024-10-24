@@ -39,8 +39,15 @@ docker-compose up --build
 
 Este comando realizará lo siguiente:
 
-- Construirá las imágenes de Docker para api-gateway, order-service y product-service.
+- Construirá las imágenes de Docker para order-service y product-service en sus servicios.
 - Iniciará los contenedores y enlazará los puertos especificados.
+- Para la api-gateway, una vez que los otros servicios estén corriendo, ve a la carpeta del api-gateway y construye su imagen usando su Dockerfile:
+  docker build -t api-gateway .
+  Esto creará la imagen del api-gateway a partir del Dockerfile.
+
+Luego, ejecuta el contenedor del api-gateway con el siguiente comando:
+docker run -p 8080:8080 --name api-gateway --network="host" api-gateway
+
 
 Las pruebas de los endpoints se realizan a través de **Swagger UI** en la siguiente dirección:  
 - Para **Order Service**: [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html)
