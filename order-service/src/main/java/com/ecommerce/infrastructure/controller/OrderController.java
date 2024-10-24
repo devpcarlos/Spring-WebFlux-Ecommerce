@@ -1,6 +1,6 @@
 package com.ecommerce.infrastructure.controller;
 
-import com.ecommerce.application.OrderService;
+import com.ecommerce.application.service.OrderService;
 import com.ecommerce.application.dto.OrderDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -34,6 +34,12 @@ public class OrderController {
     @PostMapping
     public Mono<OrderDTO> createOrder(@Valid @RequestBody OrderDTO orderDto) {
         return orderService.createOrder(orderDto);
+    }
+
+    @Operation(summary = "Actualizar una orden")
+    @PutMapping("/{id}")
+    public Mono<OrderDTO> updateOrder(@PathVariable Long id, @RequestBody OrderDTO orderDTO) {
+        return orderService.updateOrder(id, orderDTO);
     }
 
     @Operation(summary = "Elimina una orden", description = "Elimina una orden por su id")

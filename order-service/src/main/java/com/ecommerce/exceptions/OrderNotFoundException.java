@@ -1,4 +1,4 @@
-package com.ecommerce.infrastructure.exceptions;
+package com.ecommerce.exceptions;
 
 public class OrderNotFoundException extends RuntimeException{
     public OrderNotFoundException(Long id) {

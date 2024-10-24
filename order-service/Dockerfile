@@ -1,16 +1,27 @@
-# Usa una imagen base de OpenJDK 17
-FROM openjdk:17-jdk-slim as builder
+# Usar una imagen base de OpenJDK
+FROM openjdk:17-jdk-slim AS build
 
-# Establece el directorio de trabajo
+# Establecer el directorio de trabajo
 WORKDIR /app
 
-# Copia el archivo pom.xml y descarga las dependencias
+# Copiar el archivo pom.xml y el directorio src
 COPY pom.xml .
 COPY src ./src
+
+# Construir la aplicación
 RUN ./mvnw clean package -DskipTests
 
-# Crea la imagen final
-FROM openjdk:17-jre-slim
-VOLUME /tmp
-COPY --from=builder /app/target/order-service-0.0.1-SNAPSHOT.jar app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+# Usar una imagen base de OpenJDK para la ejecución
+FROM openjdk:17-jdk-slim
+
+# Establecer el directorio de trabajo
+WORKDIR /app
+
+# Copiar el archivo JAR desde el contenedor de construcción
+COPY --from=build /app/target/order-service-1.0-SNAPSHOT.jar order-service.jar
+
+# Exponer el puerto en el que se ejecutará la aplicación
+EXPOSE 8082
+
+# Comando para ejecutar la aplicación
+ENTRYPOINT ["java", "-jar", "order-service.jar"]

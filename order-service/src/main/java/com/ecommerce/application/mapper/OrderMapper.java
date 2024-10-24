@@ -19,4 +19,12 @@ public class OrderMapper {
                 .quantity(dto.getQuantity())
                 .build();
     }
+
+    public Order updateOrderToDto (OrderDTO orderDTO, Order order){
+        if ( orderDTO == null ) {
+            return order; }
+        order.setProductId(orderDTO.getProductId());
+        order.setQuantity(orderDTO.getQuantity());
+        return order;
+    }
 }
