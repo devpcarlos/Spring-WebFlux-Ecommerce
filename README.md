@@ -10,6 +10,7 @@ Este proyecto es una plataforma de comercio electrónico que incluye varios micr
 - **API Gateway**
 - **Order Service**
 - **Product Service**
+- **Base de datos PostgreSQL** (para cada servicio)
 
 ## Requisitos Previos
 
@@ -20,14 +21,28 @@ Antes de ejecutar la aplicación, asegúrate de tener instalados los siguientes 
 - [PostgreSQL 12+](https://www.postgresql.org/download/)
 - [Docker](https://www.docker.com/get-started) (opcional para una ejecución rápida con contenedores)
 
-## Configuración de la Base de Datos
+## Instrucciones para Ejecutar los Servicios
+- Paso 1: Clonar el Repositorio 
 
-Se requiere una base de datos **PostgreSQL** para ejecutar los microservicios. A continuación se muestran los pasos para configurarla:
+Clona este repositorio en tu máquina local.
+https://github.com/devpcarlos/Linktic.git
 
-1. **Crear una base de datos para Order Service**:
-   ```sql
-   CREATE DATABASE orderdb;
-   ## Pruebas de los Endpoints
+git clone [URL_DEL_REPOSITORIO]
+
+cd [NOMBRE_DEL_REPOSITORIO]
+
+- Paso 2: Construir y Ejecutar los Contenedores
+
+Navega a la raíz del proyecto donde se encuentra el archivo docker-compose.yml y ejecuta el siguiente comando:
+
+docker-compose up --build
+
+Este comando realizará lo siguiente:
+
+- Construirá las imágenes de Docker para api-gateway, order-service y product-service.
+- Iniciará los contenedores y enlazará los puertos especificados.
 
 Las pruebas de los endpoints se realizan a través de **Swagger UI** en la siguiente dirección:  
-[http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html)
+- Para **Order Service**: [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html)
+
+- Para **Product Service**:[http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)

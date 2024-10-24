@@ -3,6 +3,7 @@ package com.ecommerce.infrastructure.controller;
 import com.ecommerce.application.service.ProductService;
 import com.ecommerce.application.dto.ProductDto;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -31,13 +32,13 @@ public class ProductController {
             summary = "Crear una nuevo producto",
             description = "Crea una nuevo producto con los detalles proporcionados")
     @PostMapping
-    public Mono<ProductDto> createProduct(@RequestBody ProductDto productDto) {
+    public Mono<ProductDto> createProduct(@Valid @RequestBody ProductDto productDto) {
         return productService.createProduct(productDto);
     }
 
     @Operation(summary = "Actualizar una orden")
     @PutMapping("/{id}")
-    public Mono<ProductDto> updateOrder(@PathVariable Long id, @RequestBody ProductDto productDto) {
+    public Mono<ProductDto> updateOrder(@Valid @PathVariable Long id, @RequestBody ProductDto productDto) {
         return productService.updateOrder(id, productDto);
     }
 
