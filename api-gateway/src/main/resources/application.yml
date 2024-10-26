@@ -2,34 +2,35 @@ server:
   port: 8080
 
 spring:
+  application:
+    name: api-gateway
   cloud:
     gateway:
       routes:
-        - id: product-service
-          uri: http://localhost:8081
-          predicates:
-          - Path=/products/**
-
         - id: order-service
-          uri: http://localhost:8082
           predicates:
-          - Path=/orders/**
-
-        # Rutas para Swagger del Product Service
-        - id: product-swagger-ui
+            - Path=/orders/**
+          uri: http://localhost:8082
+        - id: products-service
+          predicates:
+            - Path=/products/**
           uri: http://localhost:8081
-          predicates:
-            - Path=/products/swagger-ui/**
-          filters:
-            - RewritePath=/products/swagger-ui/(.*), /swagger-ui/$1
 
-           # Rutas para Swagger del Order Service
-        - id: order-swagger-ui
-          uri: http://localhost:8082
-          predicates:
-            - Path=/orders/swagger-ui/**
-          filters:
-            - RewritePath=/orders/swagger-ui/(.*), /swagger-ui/$1
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui/index.html
+    urls:
+     - name: products-service
+       url: /products/api-docs
+     - name: order-service
+       url: /orders/api-docs
+
+
+
+
 
 logging:
   level:

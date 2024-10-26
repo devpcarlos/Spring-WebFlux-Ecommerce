@@ -3,7 +3,7 @@ package com.ecommerce.application.service;
 import com.ecommerce.application.dto.OrderDTO;
 import com.ecommerce.application.mapper.OrderMapper;
 import com.ecommerce.domain.port.OrderPort;
-import com.ecommerce.exceptions.OrderNotFoundException;
+import com.ecommerce.application.exceptions.OrderNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;

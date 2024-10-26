@@ -1,4 +1,4 @@
-package com.ecommerce.exceptions;
+package com.ecommerce.application.exceptions;
 
 import lombok.Getter;
 import lombok.Setter;

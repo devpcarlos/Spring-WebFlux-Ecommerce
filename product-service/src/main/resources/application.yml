@@ -1,4 +1,3 @@
-
 server:
   port: 8081
 
@@ -8,12 +7,12 @@ spring:
     username: postgres
     password: Post*124*
   flyway:
-    url: jdbc:postgresql://localhost:5432/productdb
-    user: postgres
-    password: Post*124*
+      url: jdbc:postgresql://localhost:5432/productdb
+      user: postgres
+      password: Post*124*
 
 springdoc:
   api-docs:
-    path: /api-docs
+    path: /products/api-docs
   swagger-ui:
-    path: /swagger-ui.html
+    path: /products/swagger-ui/index.html
