@@ -5,12 +5,14 @@ import com.ecommerce.application.dto.OrderDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/orders")
+@Validated
 public class OrderController {
 
     @Autowired
@@ -32,7 +34,7 @@ public class OrderController {
             summary = "Crear una nueva orden",
             description = "Crea una nueva orden con los detalles proporcionados")
     @PostMapping
-    public Mono<OrderDTO> createOrder(@Valid @RequestBody OrderDTO orderDto) {
+    public Mono<OrderDTO> createOrder(@Validated @RequestBody OrderDTO orderDto) {
         return orderService.createOrder(orderDto);
     }
 

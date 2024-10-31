@@ -1,20 +1,20 @@
+# Usa una imagen de Maven para compilar
+FROM maven:3.8.5-openjdk-17 AS build
+WORKDIR /app
+COPY . .
 
-# Usa una imagen base de OpenJDK 17
-FROM openjdk:17-jdk-slim as builder
+# Compila solo el módulo api-gateway
+RUN mvn -pl api-gateway clean install -DskipTests
 
-LABEL authors="Carlos"
-
-# Establece el directorio de trabajo
+# Usa una imagen ligera de Java para ejecutar la aplicación
+FROM openjdk:17-jdk-slim
 WORKDIR /app
 
-# Copia el archivo pom.xml y descarga las dependencias
-COPY pom.xml .
-COPY src ./src
-RUN ./mvnw clean package -DskipTests
+# Copia el archivo JAR del módulo api-gateway
+COPY --from=build /app/api-gateway/target/api-gateway-1.0-SNAPSHOT.jar gateway.jar
 
-# Crea la imagen final
-FROM openjdk:17-jre-slim
-VOLUME /tmp
-COPY --from=builder /app/target/api-gateway-0.0.1-SNAPSHOT.jar app.jar
-ENTRYPOINT ["java", "-jar","/api-gateway.jar"]
+# Expone el puerto 8080 (puerto definido en api-gateway)
+EXPOSE 8080
 
+# Ejecuta la aplicación
+ENTRYPOINT ["java", "-jar", "gateway.jar"]

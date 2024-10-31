@@ -1,27 +1,20 @@
-# Usar una imagen base de OpenJDK
-FROM openjdk:17-jdk-slim AS build
-
-# Establecer el directorio de trabajo
+# Usa una imagen de Maven para compilar
+FROM maven:3.8.5-openjdk-17 AS build
 WORKDIR /app
+COPY . .
 
-# Copiar el archivo pom.xml y el directorio src
-COPY pom.xml .
-COPY src ./src
+# Compila solo el módulo order-service
+RUN mvn -pl order-service clean install -DskipTests
 
-# Construir la aplicación
-RUN ./mvnw clean package -DskipTests
-
-# Usar una imagen base de OpenJDK para la ejecución
+# Usa una imagen ligera de Java para ejecutar la aplicación
 FROM openjdk:17-jdk-slim
-
-# Establecer el directorio de trabajo
 WORKDIR /app
 
-# Copiar el archivo JAR desde el contenedor de construcción
-COPY --from=build /app/target/order-service-1.0-SNAPSHOT.jar order-service.jar
+# Copia el archivo JAR del módulo order-service
+COPY --from=build /app/order-service/target/order-service-1.0-SNAPSHOT.jar order.jar
 
-# Exponer el puerto en el que se ejecutará la aplicación
+# Expone el puerto 8082 (puerto definido en order-service)
 EXPOSE 8082
 
-# Comando para ejecutar la aplicación
-ENTRYPOINT ["java", "-jar", "order-service.jar"]
+# Ejecuta la aplicación
+ENTRYPOINT ["java", "-jar", "order.jar"]

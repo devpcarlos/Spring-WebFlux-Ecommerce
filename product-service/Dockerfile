@@ -1,27 +1,21 @@
-# Usar una imagen base de OpenJDK
-FROM openjdk:17-jdk-slim AS build
 
-# Establecer el directorio de trabajo
+# Usa una imagen de Maven para compilar
+FROM maven:3.8.5-openjdk-17 AS build
 WORKDIR /app
+COPY . .
 
-# Copiar el archivo pom.xml y el directorio src
-COPY pom.xml ./
-COPY src ./src
+# Compila solo el módulo product-service
+RUN mvn -pl product-service clean install -DskipTests
 
-# Construir la aplicación
-RUN ./mvnw clean package -DskipTests
-
-# Usar una imagen base de OpenJDK para la ejecución
+# Usa una imagen ligera de Java para ejecutar la aplicación
 FROM openjdk:17-jdk-slim
-
-# Establecer el directorio de trabajo
 WORKDIR /app
 
-# Copiar el archivo JAR desde el contenedor de construcción
-COPY --from=build /app/target/product-service-1.0-SNAPSHOT.jar product-service.jar
+# Copia el archivo JAR del módulo product-service
+COPY --from=build /app/product-service/target/product-service-1.0-SNAPSHOT.jar product.jar
 
-# Exponer el puerto en el que se ejecutará la aplicación
-EXPOSE 8080
+# Expone el puerto 8081 (puerto definido en product-service)
+EXPOSE 8081
 
-# Comando para ejecutar la aplicación
-ENTRYPOINT ["java", "-jar", "product-service.jar"]
+# Ejecuta la aplicación
+ENTRYPOINT ["java", "-jar", "product.jar"]

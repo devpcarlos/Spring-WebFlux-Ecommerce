@@ -1,5 +1,6 @@
 package com.ecommerce.domain.model;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @AllArgsConstructor

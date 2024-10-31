@@ -3,25 +3,28 @@ package com.ecommerce.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import reactor.core.publisher.Mono;
 
 import java.util.Date;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<String> handlerProductNotFound(ProductNotFoundException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    public Mono<ResponseEntity<String>> handlerProductNotFound(ProductNotFoundException ex){
+        return Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ex.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity <?>handleValidationExceptions(MethodArgumentNotValidException ex){
+    public Mono<ResponseEntity <?>> handleValidationExceptions(MethodArgumentNotValidException ex){
         ValidErrorResponse errors = new ValidErrorResponse(
                 "Error de validacion",
                 new Date(),
                 ex.getBindingResult().getFieldError().getDefaultMessage());
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(errors));
     }
 }
