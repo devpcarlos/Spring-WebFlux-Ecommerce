@@ -5,6 +5,7 @@ import com.ecommerce.application.dto.OrderDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -34,8 +35,8 @@ public class OrderController {
             summary = "Crear una nueva orden",
             description = "Crea una nueva orden con los detalles proporcionados")
     @PostMapping
-    public Mono<OrderDTO> createOrder(@Validated @RequestBody OrderDTO orderDto) {
-        return orderService.createOrder(orderDto);
+    public Mono<ResponseEntity<OrderDTO>> createOrder(@Valid @RequestBody OrderDTO orderDto) {
+        return orderService.createOrder(orderDto).map(ResponseEntity::ok);
     }
 
     @Operation(summary = "Actualizar una orden")

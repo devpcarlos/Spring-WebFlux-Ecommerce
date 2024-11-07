@@ -19,12 +19,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Mono<ResponseEntity <?>> handleValidationExceptions(MethodArgumentNotValidException ex){
-        ValidErrorResponse errors = new ValidErrorResponse(
+    public Mono<ResponseEntity <ValidProductResponse>> handleValidationExceptions(MethodArgumentNotValidException ex){
+        ValidProductResponse errors = new ValidProductResponse(
                 "Error de validacion",
                 new Date(),
                 ex.getBindingResult().getFieldError().getDefaultMessage());
-        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(errors));
+        return Mono.just(ResponseEntity.ok().body(errors));
     }
 }

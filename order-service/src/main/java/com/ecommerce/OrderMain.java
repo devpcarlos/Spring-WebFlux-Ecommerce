@@ -19,7 +19,7 @@ public class OrderMain {
     @Bean
     public CorsWebFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:8080"); // Permitir el origen del API Gateway
+        config.addAllowedOrigin("*"); // Permitir el origen del API Gateway
         config.addAllowedMethod("*"); // Permitir todos los métodos HTTP
         config.addAllowedHeader("*"); // Permitir todos los headers
 

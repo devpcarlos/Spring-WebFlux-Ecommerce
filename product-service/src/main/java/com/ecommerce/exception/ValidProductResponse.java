@@ -7,12 +7,12 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class ValidErrorResponse {
+public class ValidProductResponse {
     private String message;
     private Date TimeStamp;
     private String Details;
 
-    public ValidErrorResponse(String message, Date timeStamp, String details) {
+    public ValidProductResponse(String message, Date timeStamp, String details) {
         this.message = message;
         this.TimeStamp = timeStamp;
         this.Details = details;
