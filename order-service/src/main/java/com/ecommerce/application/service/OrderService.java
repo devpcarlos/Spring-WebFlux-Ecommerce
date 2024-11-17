@@ -5,22 +5,19 @@ import com.ecommerce.application.mapper.OrderMapper;
 import com.ecommerce.domain.port.OrderPort;
 import com.ecommerce.application.exceptions.OrderNotFoundException;
 import jakarta.validation.Validator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Service
+@RequiredArgsConstructor
 public class OrderService {
 
-    @Autowired
-    private OrderPort orderPort;
 
-    @Autowired
-    private OrderMapper orderMapper;
+    private final OrderPort orderPort;
 
-    @Autowired
-    private Validator validator;
+    private final OrderMapper orderMapper;
+
+    private final Validator validator;
 
     public Flux<OrderDTO> getAllOrders() {
         return orderPort.findAll().map(orderMapper::toDTO);

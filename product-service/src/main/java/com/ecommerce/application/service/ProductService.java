@@ -5,19 +5,18 @@ import com.ecommerce.application.mapper.ProductMapper;
 import com.ecommerce.domain.model.Product;
 import com.ecommerce.domain.port.ProductPort;
 import com.ecommerce.exception.ProductNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Service
+@AllArgsConstructor
 public class ProductService  {
 
-    @Autowired
-    private ProductPort productPort;
+    private final ProductPort productPort;
 
-    @Autowired
-    private ProductMapper productMapper;
+    private final ProductMapper productMapper;
 
     public Flux<ProductDto> getAllProducts() {
         return productPort.findAll().map(productMapper::toDto);

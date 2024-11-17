@@ -5,19 +5,16 @@ import com.ecommerce.domain.port.OrderPort;
 import com.ecommerce.infrastructure.entity.OrderEntity;
 import com.ecommerce.infrastructure.entityMapper.OrderEntityMapper;
 import com.ecommerce.infrastructure.repository.OrderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Component
+@RequiredArgsConstructor
 public class OrderRepositoryAdapter implements OrderPort {
 
-    @Autowired
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
-    @Autowired
-    private OrderEntityMapper orderEntityMapper;
+    private final OrderEntityMapper orderEntityMapper;
 
     @Override
     public Mono<Order> findById(Long id) {
