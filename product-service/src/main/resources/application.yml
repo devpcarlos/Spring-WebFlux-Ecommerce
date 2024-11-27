@@ -2,6 +2,8 @@ server:
   port: 8081
 
 spring:
+  application:
+    name: product-service
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/productdb
     username: postgres
@@ -16,3 +18,5 @@ springdoc:
     path: /products/api-docs
   swagger-ui:
     path: /products/swagger-ui/index.html
+
+  debug: true

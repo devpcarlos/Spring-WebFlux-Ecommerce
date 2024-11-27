@@ -4,20 +4,18 @@ import com.ecommerce.application.service.OrderService;
 import com.ecommerce.application.dto.OrderDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/orders")
-@Validated
+@RequiredArgsConstructor
 public class OrderController {
 
-    @Autowired
-    private OrderService orderService;
+    private final OrderService orderService;
 
     @Operation(summary = "Obtener todas las órdenes", description = "Recupera una lista de todas las órdenes")
     @GetMapping

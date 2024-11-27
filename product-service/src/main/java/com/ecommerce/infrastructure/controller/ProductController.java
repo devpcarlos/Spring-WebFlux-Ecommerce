@@ -4,46 +4,46 @@ import com.ecommerce.application.service.ProductService;
 import com.ecommerce.application.dto.ProductDto;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
-    @Operation(summary = "Obtener todos los productos", description = "Recupera una lista de todos los Productos")
     @GetMapping
+    @Operation(summary = "Obtener todos los productos", description = "Recupera una lista de todos los Productos")
     public Flux<ProductDto> getAllProducts() {
         return productService.getAllProducts();
     }
 
-    @Operation(summary = "Obtener un producto", description = "Recupera un producto por su id")
     @GetMapping("/{id}")
+    @Operation(summary = "Obtener un producto", description = "Recupera un producto por su id")
     public Mono<ProductDto> getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
     }
 
+    @PostMapping
     @Operation(
             summary = "Crear una nuevo producto",
             description = "Crea una nuevo producto con los detalles proporcionados")
-    @PostMapping
     public Mono<ProductDto> createProduct(@Valid @RequestBody ProductDto productDto) {
         return productService.createProduct(productDto);
     }
 
-    @Operation(summary = "Actualizar una orden")
     @PutMapping("/{id}")
-    public Mono<ProductDto> updateOrder(@Valid @PathVariable Long id, @RequestBody ProductDto productDto) {
+    @Operation(summary = "Actualizar un producto", description = "Actualiza un producto con los detalles proporcionados")
+    public Mono<ProductDto> updateProduct(@Valid @PathVariable Long id, @RequestBody ProductDto productDto) {
         return productService.updateOrder(id, productDto);
     }
 
-    @Operation(summary = "Elimina un producto", description = "Elimina un producto por su id")
     @DeleteMapping("/{id}")
+    @Operation(summary = "Elimina un producto", description = "Elimina un producto por su id")
     public Mono<Void> deleteProduct(@PathVariable Long id) {
         return productService.deleteProduct(id);
     }

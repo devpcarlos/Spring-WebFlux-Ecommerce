@@ -1,4 +1,4 @@
-package com.ecommerce.application;
+package com.ecommerce;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;

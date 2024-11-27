@@ -4,7 +4,6 @@ import com.ecommerce.application.dto.OrderDTO;
 import com.ecommerce.application.mapper.OrderMapper;
 import com.ecommerce.domain.port.OrderPort;
 import com.ecommerce.application.exceptions.OrderNotFoundException;
-import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -12,12 +11,9 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class OrderService {
 
-
     private final OrderPort orderPort;
 
     private final OrderMapper orderMapper;
-
-    private final Validator validator;
 
     public Flux<OrderDTO> getAllOrders() {
         return orderPort.findAll().map(orderMapper::toDTO);
@@ -28,7 +24,7 @@ public class OrderService {
     }
 
     public Mono<OrderDTO> createOrder(OrderDTO orderDTO) {
-        return orderPort.save(orderMapper.toEntity(orderDTO)).doOnError(validator::validate).map(orderMapper::toDTO);
+        return orderPort.save(orderMapper.toEntity(orderDTO)).map(orderMapper::toDTO);
     }
 
     public Mono<OrderDTO> updateOrder(Long id, OrderDTO orderDTO) {

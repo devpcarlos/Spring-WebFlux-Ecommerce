@@ -5,19 +5,17 @@ import com.ecommerce.domain.port.ProductPort;
 import com.ecommerce.infrastructure.entity.ProductEntity;
 import com.ecommerce.infrastructure.mapperEntity.ProductEntityMapper;
 import com.ecommerce.infrastructure.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Component
+@RequiredArgsConstructor
 public class ProductRepositoryAdapter implements ProductPort {
 
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private ProductEntityMapper productEntityMapper;
+    private final ProductRepository productRepository;
+    private final ProductEntityMapper productEntityMapper;
 
     @Override
     public Mono<Product> findById(Long id) {

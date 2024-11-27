@@ -5,13 +5,11 @@ import com.ecommerce.application.mapper.ProductMapper;
 import com.ecommerce.domain.model.Product;
 import com.ecommerce.domain.port.ProductPort;
 import com.ecommerce.exception.ProductNotFoundException;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProductService  {
 
     private final ProductPort productPort;
