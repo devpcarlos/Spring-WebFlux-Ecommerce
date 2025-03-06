@@ -4,7 +4,8 @@ WORKDIR /app
 COPY . .
 
 # Compila solo el módulo api-gateway
-RUN mvn -pl api-gateway clean install -DskipTests
+RUN mvn install -DskipTests # Instala el proyecto padre primero
+RUN mvn -pl api-gateway clean package # Luego construye el módulo
 
 # Usa una imagen ligera de Java para ejecutar la aplicación
 FROM openjdk:17-jdk-slim

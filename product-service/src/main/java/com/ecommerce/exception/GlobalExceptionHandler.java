@@ -24,6 +24,6 @@ public class GlobalExceptionHandler {
                 "Error de validacion",
                 new Date(),
                 ex.getBindingResult().getFieldError().getDefaultMessage());
-        return Mono.just(ResponseEntity.ok().body(errors));
+        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors));
     }
 }

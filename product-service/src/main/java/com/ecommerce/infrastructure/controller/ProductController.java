@@ -39,7 +39,7 @@ public class ProductController {
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar un producto", description = "Actualiza un producto con los detalles proporcionados")
     public Mono<ProductDto> updateProduct(@Valid @PathVariable Long id, @RequestBody ProductDto productDto) {
-        return productService.updateOrder(id, productDto);
+        return productService.updateProduct(id, productDto);
     }
 
     @DeleteMapping("/{id}")

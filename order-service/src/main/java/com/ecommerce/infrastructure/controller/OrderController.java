@@ -39,7 +39,7 @@ public class OrderController {
 
     @Operation(summary = "Actualizar una orden")
     @PutMapping("/{id}")
-    public Mono<OrderDTO> updateOrder(@Valid @PathVariable Long id, @RequestBody OrderDTO orderDTO) {
+    public Mono<OrderDTO> updateOrder(@PathVariable Long id, @Valid @RequestBody OrderDTO orderDTO) {
         return orderService.updateOrder(id, orderDTO);
     }
 

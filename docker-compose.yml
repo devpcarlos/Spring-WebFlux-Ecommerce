@@ -1,0 +1,87 @@
+
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - product-service
+      - order-service
+    networks:
+      - ecommerce-network
+
+  order-service:
+    build:
+      context: .
+      dockerfile: order-service/Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_R2DBC_URL=r2dbc:postgresql://host.docker.internal:5432/orderdb
+      - SPRING_R2DBC_USERNAME=postgres
+      - SPRING_R2DBC_PASSWORD=Post*124*
+      - SPRING_FLYWAY_URL=jdbc:postgresql://host.docker.internal:5432/orderdb
+      - SPRING_FLYWAY_USER=postgres
+      - SPRING_FLYWAY_PASSWORD=Post*124*
+
+    depends_on:
+      - order-db
+    networks:
+      - ecommerce-network
+
+  product-service:
+    build:
+      context: .
+      dockerfile: product-service/Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_R2DBC_URL=r2dbc:postgresql://host.docker.internal:5220/productdb
+      - SPRING_R2DBC_USERNAME=postgres
+      - SPRING_R2DBC_PASSWORD=Post*124*
+      - SPRING_FLYWAY_URL=jdbc:postgresql://host.docker.internal:5220/productdb
+      - SPRING_FLYWAY_USER=postgres
+      - SPRING_FLYWAY_PASSWORD=Post*124*
+
+    depends_on:
+      - product-db
+    networks:
+      - ecommerce-network
+
+  order-db:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: orderdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Post*124*
+    ports:
+      - "5432:5432"
+    volumes:
+      - orderdb-data:/var/lib/postgresql/data
+    networks:
+      - ecommerce-network
+
+  product-db:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: productdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Post*124*
+    ports:
+      - "5220:5432"
+    volumes:
+      - productdb-data:/var/lib/postgresql/data
+    networks:
+      - ecommerce-network
+
+# Definición de redes
+networks:
+  ecommerce-network:
+    driver: bridge
+
+# Definición de volúmenes
+volumes:
+  orderdb-data:
+  productdb-data:

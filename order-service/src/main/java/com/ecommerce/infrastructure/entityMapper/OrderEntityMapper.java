@@ -1,5 +1,6 @@
 package com.ecommerce.infrastructure.entityMapper;
 
+import com.ecommerce.application.mapper.OrderMapper;
 import com.ecommerce.domain.model.Order;
 import com.ecommerce.infrastructure.entity.OrderEntity;
 import org.springframework.stereotype.Component;

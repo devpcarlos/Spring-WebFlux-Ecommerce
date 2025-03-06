@@ -29,9 +29,10 @@ public class OrderService {
 
     public Mono<OrderDTO> updateOrder(Long id, OrderDTO orderDTO) {
         return orderPort.findById(id)
+                .switchIfEmpty(Mono.error(new OrderNotFoundException(id)))
                 .flatMap(order -> {
                     orderMapper.updateOrderToDto(orderDTO, order);
-                    return orderPort.save(order);
+                    return orderPort.update(order);
                 })
                 .map(orderMapper::toDTO);
     }

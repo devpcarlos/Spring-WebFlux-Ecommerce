@@ -29,8 +29,9 @@ public class ProductService  {
         return productPort.save(product).map(productMapper::toDto);
     }
 
-    public Mono<ProductDto> updateOrder(Long id, ProductDto productDto) {
+    public Mono<ProductDto> updateProduct(Long id, ProductDto productDto) {
         return productPort.findById(id)
+                .switchIfEmpty(Mono.error(new ProductNotFoundException(id)))
                 .flatMap(order -> {
                     productMapper.updateOrderToDto(productDto, order);
                     return productPort.save(order);
